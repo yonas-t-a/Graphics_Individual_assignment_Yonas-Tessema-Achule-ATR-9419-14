@@ -1,6 +1,6 @@
 // main.js
 import { initScene, scene, camera, renderer, controls } from './scripts/initScene.js';
-import { createSofa } from './scripts/createProduct.js';
+import { createSofa, createTable } from './scripts/createProduct.js';
 import { addLighting } from './scripts/addLighting.js';
 import { initInteraction } from './scripts/interaction.js';
 import { startCameraAnimation, stopCameraAnimation, updateCameraAnimation } from './scripts/cameraAnimation.js';
@@ -11,6 +11,9 @@ addLighting(scene);
 
 const sofa = createSofa();
 scene.add(sofa);
+
+const table = createTable();
+scene.add(table);
 
 initInteraction(scene, camera, renderer, canvas);
 
@@ -30,4 +33,4 @@ function animate() {
     sofa.scale.set(scale, 1 + Math.abs(Math.sin(pulse) * 0.018), scale);
     renderer.render(scene, camera);
 }
-animate(); 
+animate();

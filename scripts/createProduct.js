@@ -68,4 +68,47 @@ function createSofa() {
     return chairGroup;
 }
 
-export { createSofa }; 
+function createTable() {
+    const tableGroup = new THREE.Group();
+    tableGroup.name = 'Table';
+
+    // Materials
+    const tableTopMat = new THREE.MeshStandardMaterial({ color: 0x8b5c2a, roughness: 0.6, metalness: 0.2 }); // Wood
+    const legMat = new THREE.MeshStandardMaterial({ color: 0x6c7684, roughness: 0.7, metalness: 0.1 }); // Metal
+
+    // Dimensions
+    const tableTopW = 1.2, tableTopD = 0.8, tableTopH = 0.05;
+    const legR = 0.05, legH = 0.7;
+
+    // Table Top
+    const tableTop = new THREE.Mesh(new THREE.BoxGeometry(tableTopW, tableTopH, tableTopD), tableTopMat);
+    tableTop.position.set(0, legH + tableTopH / 2, 0);
+    tableTop.name = 'Table Top';
+    tableTop.castShadow = tableTop.receiveShadow = true;
+    tableGroup.add(tableTop);
+
+    // Legs (4 corners)
+    const legY = legH / 2;
+    const legZ = tableTopD / 2 - legR;
+    const legX = tableTopW / 2 - legR;
+    const legPositions = [
+        [-legX, legY, -legZ],
+        [legX, legY, -legZ],
+        [-legX, legY, legZ],
+        [legX, legY, legZ],
+    ];
+    for (let i = 0; i < 4; i++) {
+        const leg = new THREE.Mesh(new THREE.CylinderGeometry(legR, legR, legH, 20), legMat);
+        leg.position.set(...legPositions[i]);
+        leg.name = `Table Leg ${i + 1}`;
+        leg.castShadow = leg.receiveShadow = true;
+        tableGroup.add(leg);
+    }
+
+    // Position the table in front of the chair
+    tableGroup.position.set(0, 0, 1.2); // Adjust Z-axis to place it in front of the chair
+    return tableGroup;
+}
+
+// Export the table creation function
+export { createSofa, createTable };
