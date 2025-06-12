@@ -10,7 +10,7 @@ Section: 3
 
 ## Screenshots
 ### Image 1:
-![Screenshot 1](./images/image.png)
+![Screenshot 1](public/image.png)
 
 ### Image 2:
-![Screenshot 2](./images/image2.png)
+![Screenshot 2](public/image2.png)
