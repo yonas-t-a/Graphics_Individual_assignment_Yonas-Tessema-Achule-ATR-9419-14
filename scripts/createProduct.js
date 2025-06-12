@@ -69,6 +69,9 @@ function createSofa() {
     chairGroup.position.set(0, 0, 0);
     return chairGroup;
 }
+// This code creates a high back chair with realistic materials and dimensions
+// It includes a seat, high backrest, armrests, and legs.
+// The chair is positioned at the origin (0,0,0) in the scene
 
 function createTable() {
     const tableGroup = new THREE.Group();
@@ -90,9 +93,12 @@ function createTable() {
     tableGroup.add(tableTop);
 
     // Legs (4 corners)
-    const legY = legH / 2;
-    const legZ = tableTopD / 2 - legR;
-    const legX = tableTopW / 2 - legR;
+    const legY = legH / 2; // Position of the legs above the ground
+    const legZ = tableTopD / 2 - legR; // Position of the legs along the Z-axis
+    const legX = tableTopW / 2 - legR; // Position of the legs along the X-axis
+    // Define positions for the four legs
+    // Each leg is positioned at the corners of the table top
+    // The positions are calculated based on the table dimensions and leg radius
     const legPositions = [
         [-legX, legY, -legZ],
         [legX, legY, -legZ],
@@ -111,6 +117,10 @@ function createTable() {
     tableGroup.position.set(0, 0, 1.2); // Adjust Z-axis to place it in front of the chair
     return tableGroup;
 }
+// This code creates a table with realistic materials and dimensions
+// It includes a table top and four legs.
+// The table is positioned in front of the chair at (0,0,1.2) in the scene
+// This code creates a lamp with a base, shade, and light source
 
 function createLamp() {
     const lampGroup = new THREE.Group();
@@ -129,7 +139,10 @@ function createLamp() {
     lampGroup.position.set(0, 0.5, 1.5); // Position near the table
     return lampGroup;
 }
+// This code creates a lamp with a base, shade, and light source
+// The lamp is positioned at (0,0.5,1.5) in the scene, near the table
 
+// This code creates a rug with a texture and positions it under the table
 function createRug() {
     const rugTexture = new THREE.TextureLoader().load('textures/rug.jpg');
     const rugMaterial = new THREE.MeshStandardMaterial({ map: rugTexture });
@@ -140,7 +153,8 @@ function createRug() {
 }
 
 
-
+// This code creates a plant with a pot and leaves
+// The plant is positioned near the chair at (-1.1, 0.4, 0) in the scene    
 function createPlant() {
     const pot = new THREE.Mesh(
         new THREE.CylinderGeometry(0.2, 0.3, 0.77, 32),
@@ -163,6 +177,7 @@ function createPlant() {
     return plantGroup;
 }
 
+// This code creates a collection of books with different textures and positions them on the table
 function createBooks() {
     const bookTextures = [
         'textures/bookCover.jpg',
