@@ -1,6 +1,6 @@
 // main.js
 import { initScene, scene, camera, renderer, controls } from './scripts/initScene.js';
-import { createSofa, createTable } from './scripts/createProduct.js';
+import { createSofa, createTable, createLamp, createRug, createPlant, createBooks } from './scripts/createProduct.js';
 import { addLighting } from './scripts/addLighting.js';
 import { initInteraction } from './scripts/interaction.js';
 import { startCameraAnimation, stopCameraAnimation, updateCameraAnimation } from './scripts/cameraAnimation.js';
@@ -19,6 +19,23 @@ scene.add(sofa);
 
 const table = createTable();
 scene.add(table);
+
+const lamp = createLamp();
+scene.add(lamp);
+
+const rug = createRug();
+scene.add(rug);
+
+// const vase = createVase();
+// scene.add(vase);
+
+
+const plant = createPlant();
+scene.add(plant);
+
+const books = createBooks();
+scene.add(books);
+
 
 initInteraction(scene, camera, renderer, canvas);
 
