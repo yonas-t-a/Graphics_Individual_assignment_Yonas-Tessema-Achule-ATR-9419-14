@@ -1,4 +1,6 @@
 import * as THREE from 'three';
+// textures/rug.jpg' import the images  
+
 
 function createSofa() {
     const chairGroup = new THREE.Group();
