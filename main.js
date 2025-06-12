@@ -4,10 +4,15 @@ import { createSofa, createTable } from './scripts/createProduct.js';
 import { addLighting } from './scripts/addLighting.js';
 import { initInteraction } from './scripts/interaction.js';
 import { startCameraAnimation, stopCameraAnimation, updateCameraAnimation } from './scripts/cameraAnimation.js';
+import { createFloor } from './scripts/createEnvironment.js'; // Import environment functions
 
 const canvas = document.getElementById('three-canvas');
 initScene(canvas);
 addLighting(scene);
+
+// Add floor and skybox
+const floor = createFloor();
+scene.add(floor);
 
 const sofa = createSofa();
 scene.add(sofa);

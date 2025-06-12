@@ -1,4 +1,4 @@
-// Adds ambient and directional lights to the scene
+// Adds ambient, directional, and spotlight to the scene
 import * as THREE from 'three';
 
 function addLighting(scene) {
