@@ -1,127 +1,114 @@
 import * as THREE from 'three';
-// textures/rug.jpg' import the images  
 
-
+// creates a high-back chair (sofa) using box and cylinder geometries for seat, backrest, armrests, and legs
+// uses different materials for each part to make the chair look more realistic
+// all parts are grouped so the chair can be moved or transformed as a single object
 function createSofa() {
     const chairGroup = new THREE.Group();
     chairGroup.name = 'High Back Chair';
 
-    // Materials
-    // Using standard materials for realistic rendering
+    // Materials for different parts of the chair
     const cushionMat = new THREE.MeshStandardMaterial({ color: 0x8e9aad, roughness: 0.5, metalness: 0.2 });
     const backrestMat = new THREE.MeshStandardMaterial({ color: 0x7a8799, roughness: 0.6, metalness: 0.15 });
     const armrestMat = new THREE.MeshStandardMaterial({ color: 0x6c7684, roughness: 0.7, metalness: 0.1 });
-    const legMat = new THREE.MeshStandardMaterial({ color: 0x8b5c2a, roughness: 0.8, metalness: 0.3 }); // Wood
+    const legMat = new THREE.MeshStandardMaterial({ color: 0x8b5c2a, roughness: 0.8, metalness: 0.3 }); // Wood material
 
-    // Dimensions
+    // Dimensions for the chair components
     const seatW = 0.7, seatD = 0.7, seatH = 0.18;
     const backrestW = seatW, backrestH = 1.1, backrestT = 0.12;
     const armrestW = 0.12, armrestH = 0.32, armrestL = seatD * 0.92;
     const legR = 0.06, legH = 0.7;
 
-    // Seat
+    // Create the seat
     const seat = new THREE.Mesh(new THREE.BoxGeometry(seatW, seatH, seatD), cushionMat);
-    seat.position.set(0, seatH/2 + legH, 0);
+    seat.position.set(0, seatH / 2 + legH, 0); // Positioned above the legs
     seat.name = 'Seat';
-    seat.castShadow = seat.receiveShadow = true;
+    seat.castShadow = seat.receiveShadow = true; // Enable shadows for realism
     chairGroup.add(seat);
 
-    // High Backrest
+    // Create the backrest
     const backrest = new THREE.Mesh(new THREE.BoxGeometry(backrestW, backrestH, backrestT), backrestMat);
-    backrest.position.set(0, legH + seatH + backrestH/2 - 0.01, -seatD/2 + backrestT/2);
+    backrest.position.set(0, legH + seatH + backrestH / 2 - 0.01, -seatD / 2 + backrestT / 2);
     backrest.name = 'High Backrest';
     backrest.castShadow = backrest.receiveShadow = true;
     chairGroup.add(backrest);
 
-    // Left Armrest
+    // Create the armrests
     const armrestLft = new THREE.Mesh(new THREE.BoxGeometry(armrestW, armrestH, armrestL), armrestMat);
-    armrestLft.position.set(-seatW/2 + armrestW/2, legH + seatH + armrestH/2 - 0.01, 0);
+    armrestLft.position.set(-seatW / 2 + armrestW / 2, legH + seatH + armrestH / 2 - 0.01, 0);
     armrestLft.name = 'Left Armrest';
     armrestLft.castShadow = armrestLft.receiveShadow = true;
     chairGroup.add(armrestLft);
 
-    // Right Armrest
     const armrestRgt = new THREE.Mesh(new THREE.BoxGeometry(armrestW, armrestH, armrestL), armrestMat);
-    armrestRgt.position.set(seatW/2 - armrestW/2, legH + seatH + armrestH/2 - 0.01, 0);
+    armrestRgt.position.set(seatW / 2 - armrestW / 2, legH + seatH + armrestH / 2 - 0.01, 0);
     armrestRgt.name = 'Right Armrest';
     armrestRgt.castShadow = armrestRgt.receiveShadow = true;
     chairGroup.add(armrestRgt);
 
-    // Legs (4 corners)
-    const legY = legH/2;
-    const legZ = seatD/2 - legR;
-    const legX = seatW/2 - legR;
+    // Create the legs at the four corners
     const legPositions = [
-        [-legX, legY, -legZ],
-        [ legX, legY, -legZ],
-        [-legX, legY,  legZ],
-        [ legX, legY,  legZ],
+        [-seatW / 2 + legR, legH / 2, -seatD / 2 + legR],
+        [seatW / 2 - legR, legH / 2, -seatD / 2 + legR],
+        [-seatW / 2 + legR, legH / 2, seatD / 2 - legR],
+        [seatW / 2 - legR, legH / 2, seatD / 2 - legR],
     ];
-    for (let i = 0; i < 4; i++) {
+    legPositions.forEach((pos, index) => {
         const leg = new THREE.Mesh(new THREE.CylinderGeometry(legR, legR, legH, 20), legMat);
-        leg.position.set(...legPositions[i]);
-        leg.name = `Leg ${i+1}`;
+        leg.position.set(...pos);
+        leg.name = `Leg ${index + 1}`;
         leg.castShadow = leg.receiveShadow = true;
         chairGroup.add(leg);
-    }
+    });
 
-    // Center the chair at (0,0,0)
+    // Center the chair at the origin
     chairGroup.position.set(0, 0, 0);
     return chairGroup;
 }
-// This code creates a high back chair with realistic materials and dimensions
-// It includes a seat, high backrest, armrests, and legs.
-// The chair is positioned at the origin (0,0,0) in the scene
 
+// creates a simple table with a rectangular top and four cylindrical legs
+// the table is sized and positioned to fit naturally with the sofa in the scene
 function createTable() {
     const tableGroup = new THREE.Group();
     tableGroup.name = 'Table';
 
-    // Materials
-    const tableTopMat = new THREE.MeshStandardMaterial({ color: 0x8b5c2a, roughness: 0.6, metalness: 0.2 }); // Wood
-    const legMat = new THREE.MeshStandardMaterial({ color: 0x6c7684, roughness: 0.7, metalness: 0.1 }); // Metal
+    // Materials for the table components
+    const tableTopMat = new THREE.MeshStandardMaterial({ color: 0x8b5c2a, roughness: 0.6, metalness: 0.2 }); // Wood material
+    const legMat = new THREE.MeshStandardMaterial({ color: 0x6c7684, roughness: 0.7, metalness: 0.1 }); // Metal material
 
-    // Dimensions
+    // Dimensions for the table components
     const tableTopW = 1.2, tableTopD = 0.8, tableTopH = 0.05;
     const legR = 0.05, legH = 0.7;
 
-    // Table Top
+    // Create the table top
     const tableTop = new THREE.Mesh(new THREE.BoxGeometry(tableTopW, tableTopH, tableTopD), tableTopMat);
-    tableTop.position.set(0, legH + tableTopH / 2, 0);
+    tableTop.position.set(0, legH + tableTopH / 2, 0); // Positioned above the legs
     tableTop.name = 'Table Top';
     tableTop.castShadow = tableTop.receiveShadow = true;
     tableGroup.add(tableTop);
 
-    // Legs (4 corners)
-    const legY = legH / 2; // Position of the legs above the ground
-    const legZ = tableTopD / 2 - legR; // Position of the legs along the Z-axis
-    const legX = tableTopW / 2 - legR; // Position of the legs along the X-axis
-    // Define positions for the four legs
-    // Each leg is positioned at the corners of the table top
-    // The positions are calculated based on the table dimensions and leg radius
+    // Create the legs at the four corners
     const legPositions = [
-        [-legX, legY, -legZ],
-        [legX, legY, -legZ],
-        [-legX, legY, legZ],
-        [legX, legY, legZ],
+        [-tableTopW / 2 + legR, legH / 2, -tableTopD / 2 + legR],
+        [tableTopW / 2 - legR, legH / 2, -tableTopD / 2 + legR],
+        [-tableTopW / 2 + legR, legH / 2, tableTopD / 2 - legR],
+        [tableTopW / 2 - legR, legH / 2, tableTopD / 2 - legR],
     ];
-    for (let i = 0; i < 4; i++) {
+    legPositions.forEach((pos, index) => {
         const leg = new THREE.Mesh(new THREE.CylinderGeometry(legR, legR, legH, 20), legMat);
-        leg.position.set(...legPositions[i]);
-        leg.name = `Table Leg ${i + 1}`;
+        leg.position.set(...pos);
+        leg.name = `Table Leg ${index + 1}`;
         leg.castShadow = leg.receiveShadow = true;
         tableGroup.add(leg);
-    }
+    });
 
     // Position the table in front of the chair
-    tableGroup.position.set(0, 0, 1.2); // Adjust Z-axis to place it in front of the chair
+    tableGroup.position.set(0, 0, 1.2);
     return tableGroup;
 }
-// This code creates a table with realistic materials and dimensions
-// It includes a table top and four legs.
-// The table is positioned in front of the chair at (0,0,1.2) in the scene
-// This code creates a lamp with a base, shade, and light source
 
+// creates a lamp with a base, a shade, and a light source
+// the lamp is placed near the table to add detail and lighting interest
 function createLamp() {
     const lampGroup = new THREE.Group();
     const lampBase = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 0.5, 32), new THREE.MeshStandardMaterial({ color: 0x333333 }));
@@ -139,10 +126,8 @@ function createLamp() {
     lampGroup.position.set(0, 0.5, 1.5); // Position near the table
     return lampGroup;
 }
-// This code creates a lamp with a base, shade, and light source
-// The lamp is positioned at (0,0.5,1.5) in the scene, near the table
 
-// This code creates a rug with a texture and positions it under the table
+// creates a rug using a textured plane and places it under the table for visual warmth
 function createRug() {
     const rugTexture = new THREE.TextureLoader().load('textures/rug.jpg');
     const rugMaterial = new THREE.MeshStandardMaterial({ map: rugTexture });
@@ -152,9 +137,8 @@ function createRug() {
     return rug;
 }
 
-
-// This code creates a plant with a pot and leaves
-// The plant is positioned near the chair at (-1.1, 0.4, 0) in the scene    
+// creates a potted plant using a cylinder for the pot and spheres/cones for leaves
+// the plant is placed near the chair to add a natural element to the scene
 function createPlant() {
     const pot = new THREE.Mesh(
         new THREE.CylinderGeometry(0.2, 0.3, 0.77, 32),
@@ -177,7 +161,8 @@ function createPlant() {
     return plantGroup;
 }
 
-// This code creates a collection of books with different textures and positions them on the table
+// creates a stack of books and a paper, and places them on the table
+// also adds a pen and holder for extra detail
 function createBooks() {
     const bookTextures = [
         'textures/bookCover.jpg',
@@ -246,5 +231,5 @@ function createPenAndHolder() {
 
     return penGroup;
 }
-// Export the table creation function
+// Export all creation functions
 export { createSofa, createTable, createLamp, createRug, createPlant, createBooks };
