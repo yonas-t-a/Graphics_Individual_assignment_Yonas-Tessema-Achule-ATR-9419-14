@@ -1,4 +1,5 @@
-<!-- # Graphics_Individual_assignment_Yonas-Tessema-Achule-ATR-9419-14
+# Graphics_Individual_assignment_Yonas-Tessema-Achule-ATR-9419-14
+by
 <br>
 Name: Yonas Tessema Achule 
 <br>
@@ -6,14 +7,6 @@ ID: ATR/0419/14
 <br>
 Section: 3
 
-# Reading Space 3D Viewer
-
-## Screenshots
-### Image 1:
-![Screenshot 1](public/image.png)
-
-### Image 2:
-![Screenshot 2](public/image2.png) -->
 
 
 # Reading Space 3D Viewer
@@ -66,11 +59,11 @@ Follow these steps to run the project locally:
 ### **Steps**
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/yonas-t-a/Graphics_Individual_assignment_Yonas-Tessema-Achule-ATR-9419-14.git
    ```
 2. Navigate to the project directory:
    ```bash
-   cd Graphics-Assignment
+   cd Graphics_Individual_assignment_Yonas-Tessema-Achule-ATR-9419-14
    ```
 3. Install dependencies:
    ```bash
@@ -80,7 +73,7 @@ Follow these steps to run the project locally:
    ```bash
    npm run dev
    ```
-5. Open the application in your browser at `http://localhost:3000`.
+5. Open the application in your browser at vite provided url.
 
 ---
 
