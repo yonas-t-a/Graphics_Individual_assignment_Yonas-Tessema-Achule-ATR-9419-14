@@ -110,5 +110,124 @@ function createTable() {
     return tableGroup;
 }
 
+function createLamp() {
+    const lampGroup = new THREE.Group();
+    const lampBase = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 0.5, 32), new THREE.MeshStandardMaterial({ color: 0x333333 }));
+    lampBase.position.set(0, 0.5, 0);
+    lampGroup.add(lampBase);
+
+    const lampShade = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 0.2, 32), new THREE.MeshStandardMaterial({ color: 0xffffff }));
+    lampShade.position.set(0, 0.7, 0);
+    lampGroup.add(lampShade);
+
+    const lampLight = new THREE.PointLight(0xffe066, 6, 5);
+    lampLight.position.set(0, 0.6, 0);
+    lampGroup.add(lampLight);
+
+    lampGroup.position.set(0, 0.5, 1.5); // Position near the table
+    return lampGroup;
+}
+
+function createRug() {
+    const rugTexture = new THREE.TextureLoader().load('textures/rug.jpg');
+    const rugMaterial = new THREE.MeshStandardMaterial({ map: rugTexture });
+    const rug = new THREE.Mesh(new THREE.PlaneGeometry(2, 1.5), rugMaterial);
+    rug.rotation.x = -Math.PI / 2;
+    rug.position.set(0, 0.01, 1.2); // Position under the table
+    return rug;
+}
+
+
+
+function createPlant() {
+    const pot = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.2, 0.3, 0.77, 32),
+        new THREE.MeshStandardMaterial({ color: 0x8b5a2b })
+    );
+
+    const earthTexture = new THREE.TextureLoader().load('textures/jupiter.jpg'); // Load the Earth texture
+    earthTexture.wrapS = THREE.RepeatWrapping; // Ensure the texture wraps horizontally
+    earthTexture.wrapT = THREE.RepeatWrapping; // Ensure the texture wraps vertically
+    earthTexture.repeat.set(1, 1); // Adjust the repeat values if necessary
+
+    const leavesMaterial = new THREE.MeshStandardMaterial({ map: earthTexture }); // Apply the texture to the material
+    const leaves = new THREE.Mesh(new THREE.SphereGeometry(0.5, 64, 64), leavesMaterial); // Increase segments for smoother mapping
+    leaves.position.set(0, 0.7, 0);
+
+    const plantGroup = new THREE.Group();
+    plantGroup.add(pot);
+    plantGroup.add(leaves);
+    plantGroup.position.set(-1.1, 0.4, 0); // Position near the chair
+    return plantGroup;
+}
+
+function createBooks() {
+    const bookTextures = [
+        'textures/bookCover.jpg',
+        'textures/bookCover1.webp',
+        'textures/bookCover2.jpg',
+        'textures/bookCover3.jpg',
+    ]; // Array of book cover textures
+
+    const booksGroup = new THREE.Group();
+    booksGroup.name = 'Books';
+
+    const positionsAndRotations = [
+        { position: [-0.4, 0.78, 1.0], rotation: Math.PI / 4 }, // Top-left corner
+        { position: [0.5, 0.77, 1.0], rotation: -Math.PI / 6 }, // Top-right corner
+        { position: [0.4, 0.78, 1.4], rotation: Math.PI / 8 }, // Bottom-right corner
+        { position: [-0.2, 0.76, 1.4], rotation: -Math.PI / 3 }, // Bottom-left corner
+    ];
+
+    bookTextures.forEach((texturePath, index) => {
+        const bookTexture = new THREE.TextureLoader().load(texturePath); // Load each book cover texture
+        const bookMaterial = new THREE.MeshStandardMaterial({ map: bookTexture });
+        const book = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.05, 0.2), bookMaterial);
+
+        // Apply position and rotation based on the predefined array
+        const { position, rotation } = positionsAndRotations[index];
+        book.position.set(...position);
+        book.rotation.y = rotation; // Rotate the book at different angles
+        book.name = `Book ${index + 1}`;
+        booksGroup.add(book);
+    });
+
+    // Add a white paper object
+    const paperMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff });
+    const paper = new THREE.Mesh(new THREE.PlaneGeometry(0.3, 0.4), paperMaterial);
+    paper.rotation.x = -Math.PI / 2; // Lay flat on the table
+    paper.position.set(0, 0.76, 1.0); // Position in the center of the table
+    paper.name = 'Paper';
+    booksGroup.add(paper);
+
+    // Add a pen object
+    const penAndHolder = createPenAndHolder();
+    booksGroup.add(penAndHolder);
+
+    return booksGroup;
+}
+
+function createPenAndHolder() {
+    const penGroup = new THREE.Group();
+    penGroup.name = 'Pen and Holder';
+
+    // Pen Body
+    const penBodyMaterial = new THREE.MeshStandardMaterial({ color: 0x000000 }); // Black pen body
+    const penBody = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.02, 0.15, 32), penBodyMaterial);
+    penBody.position.set(0, 0.075, 0); // Center the pen body
+    penGroup.add(penBody);
+
+    // Pen Tip
+    const penTipMaterial = new THREE.MeshStandardMaterial({ color: 0x808080 }); // Gray pen tip
+    const penTip = new THREE.Mesh(new THREE.CylinderGeometry(0.01, 0.02, 0.03, 32), penTipMaterial);
+    penTip.position.set(0, 0.17, 0); // Position at the end of the pen body
+    penGroup.add(penTip);
+
+    // Position the pen horizontally on the paper
+    penGroup.position.set(0, 0.76, 1.0); // Position on the paper
+    penGroup.rotation.x = Math.PI / 2; // Rotate to lay horizontally
+
+    return penGroup;
+}
 // Export the table creation function
-export { createSofa, createTable };
+export { createSofa, createTable, createLamp, createRug, createPlant, createBooks };
